@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>折柱混合ECharts</title>
+    <link rel="stylesheet" type="text/css" href="./resources/css/common.css">
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div class="main" id="main"></div>
+    <!-- 引入 ECharts 文件 -->
+    <script type="text/javascript" src="./resources/plugins/echarts/echarts.js"></script>
+    <script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+    // 指定图表的配置项和数据
+    var option = {
+        // 提示框组件
+        tooltip: {
+            trigger: 'axis',//触发类型坐标轴触发
+            // 坐标轴指示器配置项。
+            axisPointer: {
+                type: 'cross',//十字准星指示器
+                crossStyle: {
+                    color: '#999'//'cross' 时有效 线的颜色
+                }
+            }
+        },
+        // 工具栏
+        toolbox: {
+            //各工具配置项。
+            feature: {
+                dataView: {show: true, readOnly: false},//数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新。
+                magicType: {show: true, type: ['line', 'bar']},//动态类型切换
+                restore: {show: true},////配置项还原。
+                saveAsImage: {show: true}//保存为图片。
+            }
+        },
+        //图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示。
+        legend: {
+            data:['蒸发量','降水量','平均温度']
+        },
+        xAxis: [
+            {
+                type: 'category',//坐标轴类型(适用于离散的类目数据，为该类型时必须通过 data 设置类目数据)，
+                data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                axisPointer: {
+                    type: 'shadow'//阴影指示器
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '水量',
+                min: 0,
+                max: 250,
+                interval: 50,//坐标轴分割间隔
+                axisLabel: {
+                    formatter: '{value} ml'
+                }
+            },
+            {
+                type: 'value',// 数值轴，适用于连续数据。
+                name: '温度',
+                min: 0,
+                max: 25,
+                interval: 5,
+                axisLabel: {
+                    formatter: '{value} °C'
+                }
+            }
+        ],
+        series: [//系列列表。每个系列通过 type 决定自己的图表类型
+            {
+                name:'蒸发量',
+                type:'bar',
+                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+            },
+            {
+                name:'降水量',
+                type:'bar',
+                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+            },
+            {
+                name:'平均温度',
+                type:'line',
+                yAxisIndex: 1,//使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用。
+                data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            }
+        ]
+    };
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    </script>
+</body>
+
+</html>
